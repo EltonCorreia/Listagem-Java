@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js" defer></script>
+    <title>Portal de usuários</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de usuários</h1>
+        <div id="usuario-lista">
+            
+        </div>
+    </div>
+
+   
+
+    <script>
+    async function getUsuarios(){
+        try{
+            const response = await fetch("http://localhost:8080/listar-usuarios");
+            const usuarios = await response.json();
+            mostrarUsuarios(usuarios);
+        }catch(error){
+            console.error("Erro ao consultar", error);
+        }
+    }
+    function mostrarUsuarios(usuarios){
+        const usuarioList = document.getElementById('usuario-lista');
+        usuarioList.innerHTML = "";
+        usuarios.forEach(usuario => {
+            const usuarioCard = document.createElement('div');
+            usuarioCard.className = 'usuario-card'
+            usuarioCard.innerHTML = 
+                `<h2>${usuario.nome}</h2>
+                <p><strong>Email:</strong> ${usuario.email}</p>
+                <p><strong>Telefone:</strong> ${usuario.celular}</p>`
+
+                usuarioList.appendChild(usuarioCard);
+        });
+    }
+    window.onload=getUsuarios;
+    </script>
+</body>
+</html>
